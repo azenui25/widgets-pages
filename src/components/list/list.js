@@ -2,9 +2,33 @@ import React from "react";
 import { Paper,Table,TableBody,TableCell,TableContainer,
     TableHead,TableRow,Typography,Button,IconButton } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
+import Modal from "../modal/modal"
 
 
 class List extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            items:[],
+            deleteModal:false,
+            selectItem:null
+        };
+        this.handleDelete   =   this.handleDelete.bind(this);
+      }
+    
+      //handle delete button
+      handleDelete(){
+        const me    = this;
+        me.setState({deleteModal:true})
+      }
+    
+      //initialize the table from local storage
+      componentDidMount(){
+          const Items   =    JSON.parse(window.localStorage.getItem("items"));
+          if(Items != null || Items !== undefined){
+            this.setState({items:Items});
+          }
+      }
   
   render() {
     return (
@@ -44,7 +68,7 @@ class List extends React.Component {
                                             })
                                             
                                         }}>
-                                            <DeleteIcon />
+                                            <DeleteIcon/>
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
@@ -53,6 +77,15 @@ class List extends React.Component {
                     </Table>
                 </TableContainer>
             </Paper>
+             {/* delete confirmation custom modal */}
+             <Modal open={this.state.deleteModal} body="Are you sure you want to delete this item"
+             onClose={()=>{this.setState({deleteModal:false})}}
+             onSubmit={()=>{
+                 this.state.items.splice(this.state.selectItem,1);
+                 window.localStorage.setItem("items",JSON.stringify( this.state.items));
+                 this.setState({deleteModal:false});
+             }}
+         />
           
       </div>
     );
