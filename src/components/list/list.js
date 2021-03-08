@@ -25,7 +25,7 @@ class List extends React.Component {
       //initialize the table from local storage
       componentDidMount(){
           const Items   =    JSON.parse(window.localStorage.getItem("items"));
-          if(Items != null || Items !== undefined){
+          if(Items != null || Items != undefined){
             this.setState({items:Items});
           }
       }
@@ -37,7 +37,7 @@ class List extends React.Component {
                 <div>
                     <Typography variant="h6"style={{display:"inline-block"}} >Item List</Typography>
                     <div style={{float:"right"}}>
-                        <Button variant="contained" color="primary" onClick={()=>{
+                        <Button data-testid="button" variant="contained" color="primary" onClick={()=>{
                             this.props.history.push("/add")
                         }}>Add Item</Button>
                     </div>
@@ -68,7 +68,7 @@ class List extends React.Component {
                                             })
                                             
                                         }}>
-                                            <DeleteIcon/>
+                                            <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
